@@ -1,0 +1,21 @@
+#addButton {
+  border: 0;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s, box-shadow 0.3s;
+  min-height:50px;
+  min-width:50px;
+}
+
+#addButton:hover {
+  background-color: #33658A;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+#addButton:active {
+  background-color: #86BBD8;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
