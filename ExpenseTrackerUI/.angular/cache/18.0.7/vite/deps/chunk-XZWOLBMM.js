@@ -58,7 +58,7 @@ import {
   ɵɵinject,
   ɵɵinjectAttribute,
   ɵɵstyleProp
-} from "./chunk-4Z5KRAG7.js";
+} from "./chunk-DU3A3QH5.js";
 
 // node_modules/@angular/common/fesm2022/common.mjs
 var _DOM = null;
@@ -5009,4 +5009,4 @@ export {
    * License: MIT
    *)
 */
-//# sourceMappingURL=chunk-KAJ25FFO.js.map
+//# sourceMappingURL=chunk-XZWOLBMM.js.map

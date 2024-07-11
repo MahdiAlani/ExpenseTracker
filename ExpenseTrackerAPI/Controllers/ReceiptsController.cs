@@ -33,11 +33,13 @@ namespace ExpenseTrackerAPI.Controllers
             // Creates a new Receipt Model
             var receipt = new Receipt(
                 Guid.NewGuid(),
-                receiptDto.From,
-                receiptDto.Card,
-                receiptDto.TotalCost,
+                receiptDto.Merchant,
+                receiptDto.Date,
+                receiptDto.Category,
+                receiptDto.PaymentMethod,
+                receiptDto.SubTotal,
                 receiptDto.TaxPercentage,
-                receiptDto.Items);
+                receiptDto.Total);
 
             // Adds the Receipt to the Database
             DbContext.Add(receipt);

@@ -1,9 +1,15 @@
-<div class="file-drop-area"
-     (dragover)="onDragOver($event)"
-     (drop)="onDrop($event)">
-  <i class="fas fa-cloud-upload-alt"></i>
-  <p>Drag and drop a file here</p>
-  <p>or</p>
-  <button type="button" class="btn btn-primary" (click)="fileInput.click()">Select File</button>
-  <input type="file" #fileInput (change)="onFileSelected($event)" hidden>
+<div>
+  <div class="file-drop-area mt-3"
+      (dragover)="onDragOver($event)"
+      (drop)="onDrop($event)">
+    <i class="fas fa-cloud-upload-alt"></i>
+    <p>Drag and drop a file here</p>
+    <p>or</p>
+    <button type="button" class="btn btn-primary" (click)="fileInput.click()">Select File</button>
+    <input type="file" #fileInput (change)="onFileSelected($event)" hidden>
+  </div>
+  <div class="col-12 mt-3 text-end">
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </div> 
 </div>
+

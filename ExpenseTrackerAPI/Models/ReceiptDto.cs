@@ -4,14 +4,18 @@ namespace ExpenseTrackerAPI.Models
 {
     public class ReceiptDto
     {
-        public string? From { get; set; }
+        public string? Merchant { get; set; }
 
-        public string? Card { get; set; }
+        public DateTime Date { get; set; }
 
-        public double TotalCost { get; set; }
+        public string? Category { get; set; }
+
+        public string? PaymentMethod { get; set; }
+
+        public double SubTotal { get; set; }
 
         public double TaxPercentage { get; set; }
 
-        public List<Item>? Items { get; set; }
+        public double Total { get; set; }
     }
 }

@@ -1,0 +1,8 @@
+C:\Users\thema\visual studio\ExpenseTrackerAPI\obj\Debug\net8.0\ExpenseTrackerAPI.csproj.AssemblyReference.cache
+C:\Users\thema\visual studio\ExpenseTrackerAPI\obj\Debug\net8.0\ExpenseTrackerAPI.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\thema\visual studio\ExpenseTrackerAPI\obj\Debug\net8.0\ExpenseTrackerAPI.AssemblyInfoInputs.cache
+C:\Users\thema\visual studio\ExpenseTrackerAPI\obj\Debug\net8.0\ExpenseTrackerAPI.AssemblyInfo.cs
+C:\Users\thema\visual studio\ExpenseTrackerAPI\obj\Debug\net8.0\ExpenseTrackerAPI.csproj.CoreCompileInputs.cache
+C:\Users\thema\visual studio\ExpenseTrackerAPI\obj\Debug\net8.0\ExpenseTrackerAPI.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\thema\visual studio\ExpenseTrackerAPI\obj\Debug\net8.0\ExpenseTrackerAPI.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\thema\visual studio\ExpenseTrackerAPI\obj\Debug\net8.0\ExpenseTrackerAPI.sourcelink.json

@@ -1,28 +1,35 @@
-﻿namespace ExpenseTrackerAPI.Models.Domain
+﻿using System.ComponentModel;
+
+namespace ExpenseTrackerAPI.Models.Domain
 {
     public class Receipt
     {
-        public Receipt(Guid id, string? from, string? card, double totalCost, double taxPercentage, List<Item>? items)
+        public Receipt(Guid id, string? merchant, DateTime date, string? category, string? paymentMethod, double subtotal, double taxPercentage, double total)
         {
             Id = id;
-            From = from;
-            Card = card;
-            TotalCost = totalCost;
+            Merchant = merchant;
+            Date = date;
+            Category = category;
+            PaymentMethod = paymentMethod;
+            SubTotal = subtotal;
             TaxPercentage = taxPercentage;
-            Items = items;
+            Total = total;
         }
 
         public Guid Id { get; set; }
 
-        public string? From { get; set; }
+        public string? Merchant { get; set; }
 
-        public string? Card { get; set; }
+        public DateTime Date { get; set; }
 
-        public double TotalCost { get; set; }
+        public string? Category { get; set; }
+
+        public string? PaymentMethod { get; set; }
+
+        public double SubTotal { get; set; }
 
         public double TaxPercentage { get; set; }
 
-        public List<Item>? Items { get; set; }
-
+        public double Total { get; set; }
     }
 }
