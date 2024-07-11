@@ -4,6 +4,9 @@ namespace ExpenseTrackerAPI.Models.Domain
 {
     public class Receipt
     {
+
+        public Receipt() { }
+
         public Receipt(Guid id, string? merchant, DateTime date, string? category, string? paymentMethod, double subtotal, double taxPercentage, double total)
         {
             Id = id;

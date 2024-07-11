@@ -1,0 +1,29 @@
+[33mcommit e8a68c2df5605942b3692ec6dc997fd61bfc4406[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m
+Author: Mahdi Alani <themahdi67@gmail.com>
+Date:   Wed Jul 10 23:52:16 2024 -0400
+
+    Added NavBar, Finished Receipt Entry form UI
+
+[33mcommit b16eb226a521256da5db9856112db459c9f1731f[m[33m ([m[1;31morigin/main[m[33m)[m
+Author: Mahdi Alani <themahdi67@gmail.com>
+Date:   Tue Jul 9 14:54:41 2024 -0400
+
+    Added Receipt entry UI
+
+[33mcommit 4c37c563f5f45b45fb4737983c9a269e146477ff[m
+Author: Mahdi Alani <themahdi67@gmail.com>
+Date:   Tue Jul 9 14:38:10 2024 -0400
+
+    Changed gitignore
+
+[33mcommit 0f40b063299e28eccbad9580e7830a2a85e79c77[m
+Author: Mahdi Alani <themahdi67@gmail.com>
+Date:   Tue Jul 9 14:36:58 2024 -0400
+
+    Changed gitignore
+
+[33mcommit f68f6b6306aadf57a32611b6f2463e5e3ecf823e[m
+Author: Mahdi Alani <themahdi67@gmail.com>
+Date:   Sun Jul 7 15:59:32 2024 -0400
+
+    First Commit
