@@ -12,19 +12,48 @@ namespace ExpenseTrackerAPI.Controllers
     public class ReceiptsController : ControllerBase
     {
 
-        public ReceiptDbContext DbContext { get; set; }
+        public ReceiptDbContext dbContext { get; set; }
 
-        public ReceiptsController(ReceiptDbContext DbContext) 
+        public ReceiptsController(ReceiptDbContext dbContext) 
         {
-            this.DbContext = DbContext;   
+            this.dbContext = dbContext;   
         }
 
         [HttpGet]
         public IActionResult GetAllReceipts() 
         {
-            var Receipts = DbContext.Receipts.ToList();
-
+            var Receipts = dbContext.Receipts.ToList();
             return Ok(Receipts);
+        }
+
+        /*
+         * Gets receipts within a specific date
+         */
+        [HttpGet("bydate")]
+        public IActionResult GetReceiptsByDate(DateTime date)
+        {
+            var receipts = dbContext.Receipts.Where(r => r.Date.Date == date.Date).ToList();
+            return Ok(receipts);
+        }
+
+        /*
+         * Gets receipts within a specific category
+         */
+        [HttpGet("bycategory")]
+        public IActionResult GetReceiptsByCategory(string category)
+        {
+            var receipts = dbContext.Receipts.Where(r => r.Category == category).ToList();
+            return Ok(receipts);
+        }
+
+        /*
+         * Gets receipts from a specific payment method
+         */
+        [HttpGet("bypaymentmethod")]
+        public IActionResult GetReceiptsByPaymentMethod(string paymentMethod)
+        {
+            var receipts = dbContext.Receipts.Where(r => r.PaymentMethod == paymentMethod).ToList();
+            return Ok(receipts);
         }
 
         [HttpPost]
@@ -42,31 +71,49 @@ namespace ExpenseTrackerAPI.Controllers
                 receiptDto.Total);
 
             // Adds the Receipt to the Database
-            DbContext.Add(receipt);
-            DbContext.SaveChanges();
+            dbContext.Add(receipt);
+            dbContext.SaveChanges();
 
             return Ok(receipt);
         }
 
-        [HttpPut]
+        [HttpPut("{id}")]
+        public IActionResult UpdateReceipt(Guid id, ReceiptDto receiptDto)
+        {
+            var existingReceipt = dbContext.Receipts.FirstOrDefault(r => r.Id == id);
+            if (existingReceipt == null)
+            {
+                return NotFound();
+            }
+
+            existingReceipt.Merchant = receiptDto.Merchant;
+            existingReceipt.Date = receiptDto.Date;
+            existingReceipt.Category = receiptDto.Category;
+            existingReceipt.PaymentMethod = receiptDto.PaymentMethod;
+            existingReceipt.SubTotal = receiptDto.SubTotal;
+            existingReceipt.TaxPercentage = receiptDto.TaxPercentage;
+            existingReceipt.Total = receiptDto.Total;
+
+            dbContext.Receipts.Update(existingReceipt);
+            dbContext.SaveChanges();
+
+            return Ok(existingReceipt);
+        }
+
+        [HttpDelete("{id}")]
         public IActionResult DeleteReceipt(Guid id)
         {
+            var receipt = dbContext.Receipts.FirstOrDefault(r => r.Id == id);
+            if (receipt == null)
+            {
+                return NotFound();
+            }
 
-            DbContext.Remove(id); // Removes the Receipt based on its id
+            dbContext.Receipts.Remove(receipt);
+            dbContext.SaveChanges();
 
             return Ok();
         }
-
-        [HttpDelete]
-        public IActionResult UpdateReceipt(Guid id, ReceiptDto receiptDto)
-        {
-            // Deletes the old Receipt
-            this.DeleteReceipt(id);
-
-            // Adds the new receipt to the database
-            return this.AddReceipt(receiptDto);
-
-        }
-
     }
+
 }
