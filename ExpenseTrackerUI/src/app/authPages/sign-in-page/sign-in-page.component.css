@@ -1,0 +1,23 @@
+#signIn {
+    width: 400px;
+    height: 400px;
+    padding: 2rem; 
+    border-width: 0;
+}
+
+#form {
+    text-align: center;
+}
+
+
+#signIn .btn {
+    height: 50px;
+}
+
+#signUp {
+    margin: 20px;
+}
+
+#link {
+    text-decoration: none;
+}

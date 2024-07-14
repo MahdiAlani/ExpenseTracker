@@ -1,0 +1,31 @@
+<div class="container d-flex justify-content-center align-items-center vh-100" id="root">
+    <div class="card p-4 d-flex flex-column align-items-center" id="signIn">
+        <h1 id="header">Sign In</h1>
+        <form class="needs-validation w-100" novalidate id="form">
+            <div class="form-floating mb-3 p-1 w-100">
+              <input type="text" class="form-control" id="email" placeholder="Email*" required>
+              <label for="email">Email*</label>
+            </div>
+            <div class="form-floating mb-3 p-1 w-100">
+              <input type="password" class="form-control" id="Password" placeholder="Password*" required>
+              <label for="Password">Password*</label>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Register</button>
+
+          <!-- Sign up link-->
+          <div id="signUp">
+            Don't have an account? 
+            <a href="#" id="link">Sign up Instead</a>
+          </div>
+          
+          <!-- Alt sign in methods-->
+          <div>
+            <button type="submit" class="btn btn-danger btn-google w-100"id="google">
+              <i class="fa-brands fa-google"></i>
+              Continue with Google
+            </button>
+            
+          </div>
+        </form>
+    </div>
+</div>
