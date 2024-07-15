@@ -27,6 +27,16 @@ namespace ExpenseTrackerAPI.Controllers
         }
 
         /*
+        * Gets receipts within a specific id
+        */
+        [HttpGet("byId")]
+        public IActionResult GetReceiptsByDate(Guid id)
+        {
+            var receipts = dbContext.Receipts.SingleOrDefault(r => r.Id == id);
+            return Ok(receipts);
+        }
+
+        /*
          * Gets receipts within a specific date
          */
         [HttpGet("bydate")]

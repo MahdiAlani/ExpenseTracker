@@ -1,6 +1,6 @@
 <div class="container d-flex justify-content-center align-items-center vh-100" id="root">
     <div class="card p-4 d-flex flex-column align-items-center" id="signup">
-        <h1 id="header">Register</h1>
+        <h2 id="header">Register</h2>
         <form class="needs-validation w-100" novalidate id="form">
             <div class="form-floating mb-3 p-1 w-100">
               <input type="text" class="form-control" id="email" placeholder="Email*" required>
@@ -15,14 +15,14 @@
           <!-- Sign in link-->
           <div id="signIn">
             Have an account? 
-            <a href="#" id="link">Sign in Instead</a>
+            <a [routerLink]="['../SignIn']" id="link">Sign in Instead</a>
           </div>
           
           <!-- Alt sign in methods-->
           <div>
             <button type="submit" class="btn btn-danger btn-google w-100"id="google">
               <i class="fa-brands fa-google"></i>
-              Sign in with Google
+              Continue with Google
             </button>
             
           </div>

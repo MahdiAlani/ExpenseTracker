@@ -5,11 +5,12 @@ import { SignUpPageComponent } from "./authPages/sign-up-page/sign-up-page.compo
 import { SignInPageComponent } from "./authPages/sign-in-page/sign-in-page.component";
 import { RouterModule } from '@angular/router';
 import { HomeComponent } from './Pages/home/home.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [HomeComponent, RouterModule],
+  imports: [HomeComponent, RouterModule, ReactiveFormsModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
