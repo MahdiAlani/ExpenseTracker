@@ -136,3 +136,6 @@ C:\Users\thema\visual studio\ExpenseTrackerAPI\obj\Debug\net8.0\ExpenseTrackerAP
 C:\Users\thema\visual studio\ExpenseTrackerAPI\obj\Debug\net8.0\ExpenseTrackerAPI.genruntimeconfig.cache
 C:\Users\thema\visual studio\ExpenseTrackerAPI\obj\Debug\net8.0\ref\ExpenseTrackerAPI.dll
 C:\Users\thema\visual studio\ExpenseTrackerAPI\bin\Debug\net8.0\System.Text.Json.dll
+C:\Users\thema\visual studio\ExpenseTrackerAPI\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\thema\visual studio\ExpenseTrackerAPI\bin\Debug\net8.0\Auth0.AspNetCore.Authentication.dll
+C:\Users\thema\visual studio\ExpenseTrackerAPI\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.OpenIdConnect.dll

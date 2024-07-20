@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ExpenseTrackerAPI.Migrations
 {
-    [DbContext(typeof(ReceiptDbContext))]
+    [DbContext(typeof(AppDbContext))]
     partial class ReceiptDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
@@ -52,6 +52,27 @@ namespace ExpenseTrackerAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Receipts");
+                });
+
+            modelBuilder.Entity("ExpenseTrackerAPI.Models.Domain.User", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Roles")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
                 });
 #pragma warning restore 612, 618
         }

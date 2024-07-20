@@ -1,79 +1,88 @@
 ﻿using ExpenseTrackerAPI.Data;
+using ExpenseTrackerAPI.Services;
 using ExpenseTrackerAPI.Models;
 using ExpenseTrackerAPI.Models.Domain;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
+using Azure.Core;
 
 namespace ExpenseTrackerAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UsersController : ControllerBase
     {
+        
+        public AuthService authService { get; set; }
 
-        public UserDbContext dbContext { get; set; }
-
-        public UsersController(UserDbContext dbContext)
+        public UsersController(AuthService authService)
         {
-            this.dbContext = dbContext;
+            this.authService = authService;
         }
 
-        [HttpGet("{id}")]
-        public IActionResult GetUser(Guid id)
+        [HttpPost("login")]
+        [AllowAnonymous]
+        public IActionResult login([FromBody] LoginRequest loginRequest)
         {
-            var User = dbContext.Users.SingleOrDefault(u => u.Id == id);
-            return Ok(User);
+            try
+            {
+                LoginResponseDto response = authService.GetUser(loginRequest);
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
-        [HttpPost]
-        public IActionResult AddUser(UserDto userDto)
+        [HttpPost("register")]
+        [AllowAnonymous]
+        public IActionResult Register([FromBody] RegisterRequest registerRequest)
         {
-            // Creates a new User Model
-            var user = new User(
-                Guid.NewGuid(),
-                userDto.email,
-                userDto.password);
+            try
+            {
+                LoginResponseDto response = authService.SaveUser(registerRequest);
 
-            // Adds the User to the Database
-            dbContext.Add(user);
-            dbContext.SaveChanges();
-
-            return Ok(user);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
+
 
         [HttpPut("{id}")]
-        public IActionResult UpdateUser(Guid id, UserDto userDto)
+        public IActionResult UpdateUser(Guid id, RegisterRequest registerRequest)
         {
-            var existingUser = dbContext.Users.FirstOrDefault(u => u.Id == id);
-            if (existingUser == null)
-            {
-                return NotFound();
-            }
 
-            existingUser.Email = userDto.email;
-            existingUser.Password = userDto.password;
-
-            dbContext.Users.Update(existingUser);
-            dbContext.SaveChanges();
-
-            return Ok(existingUser);
+            return Ok();
         }
 
         [HttpDelete("{id}")]
         public IActionResult DeleteUser(Guid id)
         {
-            var user = dbContext.Users.FirstOrDefault(u => u.Id == id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            dbContext.Users.Remove(user);
-            dbContext.SaveChanges();
+            
 
             return Ok();
         }
-    }
 
+        [HttpGet("AuthTest")]
+        public IActionResult AuthTest()
+        {
+            return Ok();
+        }
+
+        [HttpGet("NoAuthTest")]
+        [AllowAnonymous]
+        public IActionResult NoAuthTest()
+        {
+            return Ok();
+        }
+    }
 }

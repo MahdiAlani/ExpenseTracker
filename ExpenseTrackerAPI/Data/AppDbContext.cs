@@ -3,11 +3,13 @@ using ExpenseTrackerAPI.Models.Domain;
 
 namespace ExpenseTrackerAPI.Data
 {
-    public class UserDbContext : DbContext
+    public class AppDbContext : DbContext
     {
-        public UserDbContext(DbContextOptions options) : base(options)
+        public AppDbContext(DbContextOptions options) : base(options)
         {
         }
+
+        public DbSet<Receipt> Receipts { get; set; }
 
         public DbSet<User> Users { get; set; }
     }

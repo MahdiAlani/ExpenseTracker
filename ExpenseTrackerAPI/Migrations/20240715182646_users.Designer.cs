@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ExpenseTrackerAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240711220609_workingDatabase")]
-    partial class workingDatabase
+    [Migration("20240715182646_users")]
+    partial class users
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -55,6 +55,23 @@ namespace ExpenseTrackerAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Receipts");
+                });
+
+            modelBuilder.Entity("ExpenseTrackerAPI.Models.Domain.User", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
                 });
 #pragma warning restore 612, 618
         }

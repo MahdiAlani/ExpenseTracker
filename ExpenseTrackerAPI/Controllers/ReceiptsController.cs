@@ -12,9 +12,9 @@ namespace ExpenseTrackerAPI.Controllers
     public class ReceiptsController : ControllerBase
     {
 
-        public ReceiptDbContext dbContext { get; set; }
+        public AppDbContext dbContext { get; set; }
 
-        public ReceiptsController(ReceiptDbContext dbContext) 
+        public ReceiptsController(AppDbContext dbContext) 
         {
             this.dbContext = dbContext;   
         }

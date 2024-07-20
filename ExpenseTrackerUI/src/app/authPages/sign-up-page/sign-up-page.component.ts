@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { UserApiService } from '../../UserApi/user-api.service';
 
 @Component({
   selector: 'app-sign-up-page',
@@ -10,4 +11,9 @@ import { RouterModule } from '@angular/router';
 })
 export class SignUpPageComponent {
 
+  constructor(private api: UserApiService) {}
+  
+  register(email: string, password: string) {
+    this.api.registerUser(email, password)
+  }
 }
