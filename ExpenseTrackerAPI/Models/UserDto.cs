@@ -4,12 +4,9 @@
     {
         public string? Email { get; set; }
 
-        public string? Password { get; set; }
-
-        public UserDto(string? email, string? password )
+        public UserDto(string? email)
         {
             Email = email;
-            Password = password;
         }
     }
 }

@@ -156,7 +156,7 @@ namespace ExpenseTrackerAPI.Services
 
         private static UserDto ConvertToDto(User user)
         {
-            return new UserDto(user.Email, user.Password);
+            return new UserDto(user.Email);
         }
     }
 }

@@ -20,6 +20,5 @@ export class SignInPageComponent {
     if (this.loginForm.invalid) {
       return;
     }
-
   }
 }
