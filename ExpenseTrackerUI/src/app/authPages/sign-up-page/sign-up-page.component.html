@@ -1,15 +1,30 @@
 <div class="container d-flex justify-content-center align-items-center vh-100" id="root">
     <div class="card p-4 d-flex flex-column align-items-center" id="signup">
         <h2 id="header">Register</h2>
-        <form class="needs-validation w-100" novalidate id="form" (ngSubmit)="register()">
-            <div class="form-floating mb-3 p-1 w-100">
-              <input type="text" class="form-control" [(ngModel)]="email" name="email" id="email" placeholder="Email*" required>
+        <form class="needs-validation w-100" [formGroup]="registrationForm" id="form" (ngSubmit)="register()">
+            
+            <div class="form-floating mb-1 p-1 w-100">
+              <input type="text" class="form-control" formControlName="email" id="email" placeholder="Email*" required>
               <label for="email">Email*</label>
+              <div class="text-danger text-start">
+                <small *ngIf= "registrationForm.controls['email'].invalid && (registrationForm.controls['email'].touched || registrationForm.controls['email'].dirty)">
+                  *Invalid Email Address.
+                </small>
+              </div>
+              
             </div>
-            <div class="form-floating mb-3 p-1 w-100">
-              <input type="password" class="form-control" [(ngModel)]="password" name="password" id="Password" placeholder="Password*" required>
+
+            <div class="form-floating mb-1 p-1 w-100">
+              <input type="password" class="form-control" formControlName="password" id="Password" placeholder="Password*" required>
               <label for="Password">Password*</label>
+              <div *ngIf="registrationForm.get('password')?.invalid && registrationForm.get('password')?.touched" class="text-danger text-start error-messages">
+                <small *ngIf="registrationForm.get('password')?.errors?.['required']">*Password is` required.<br></small>
+                <small *ngIf="registrationForm.get('password')?.errors?.['minlength']">*Password must be at least 8 characters long.<br></small>
+                <small *ngIf="registrationForm.get('password')?.errors?.['uppercase']">*Password must include at least one uppercase letter.<br></small>
+                <small *ngIf="registrationForm.get('password')?.errors?.['number']">*Password must include at least one number.<br></small>
+              </div>
             </div>
+
             <button type="submit" class="btn btn-primary w-100">Register</button>
 
           <!-- Sign in link-->
