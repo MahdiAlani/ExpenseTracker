@@ -21,16 +21,3 @@
 #link {
     text-decoration: none;
 }
-
-.error-messages small {
-    display: block;
-    margin-bottom: 2px; /* Adjust the spacing between error messages */
-  }
-  
-  .error-messages {
-    margin-top: 2px; /* Adjust the spacing between the input and error messages */
-  }
-  
-  .form-floating.mb-1.p-1.w-100 input {
-    margin-bottom: 0; /* Remove default bottom margin if any */
-  }

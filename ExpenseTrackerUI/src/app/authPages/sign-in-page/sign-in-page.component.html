@@ -1,15 +1,27 @@
 <div class="container d-flex justify-content-center align-items-center vh-100" id="root">
     <div class="card p-4 d-flex flex-column align-items-center" id="signIn">
         <h2 id="header">Login</h2>
-        <form [formGroup]="loginForm" (submit)="signIn()" class="needs-validation w-100" novalidate id="form">
-            <div class="form-floating mb-3 p-1 w-100">
-              <input type="text" class="form-control" formControlName="email" id="email" placeholder="Email*" required>
-              <label for="email">Email*</label>
+        <form [formGroup]="loginForm" (ngSubmit)="signIn()" class="needs-validation w-100" novalidate id="form">
+            
+          <div class="form-floating mb-1 p-1 w-100">
+            <input type="text" class="form-control" formControlName="email" id="email" placeholder="Email*" required>
+            <label for="email">Email*</label>
+            <div class="text-danger text-start">
+              <small *ngIf= "loginForm.controls['email'].invalid && (loginForm.controls['email'].touched || loginForm.controls['email'].dirty)">
+                *Invalid Email Address.
+              </small>
             </div>
-            <div class="form-floating mb-3 p-1 w-100">
-              <input type="password" class="form-control" formControlName="password" id="Password" placeholder="Password*" required>
-              <label for="Password">Password*</label>
+            
+          </div>
+
+          <div class="form-floating mb-1 p-1 w-100">
+            <input type="password" class="form-control" formControlName="password" id="Password" placeholder="Password*" required>
+            <label for="Password">Password*</label>
+            <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="text-danger text-start error-messages">
+              <small *ngIf="loginForm.get('password')?.errors?.['required']">*Password is required.<br></small>
             </div>
+          </div>
+
             <button type="submit" class="btn btn-primary w-100"> Login</button>
 
           <!-- Sign up link-->

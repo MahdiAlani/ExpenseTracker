@@ -1,24 +1,35 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { AuthService } from '../../../Services/UserApi/Auth.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-sign-in-page',
   standalone: true,
-  imports: [RouterModule, ReactiveFormsModule],
+  imports: [RouterModule, ReactiveFormsModule, CommonModule],
   templateUrl: './sign-in-page.component.html',
   styleUrl: './sign-in-page.component.css'
 })
 export class SignInPageComponent {
 
-  loginForm = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [Validators.required, Validators.minLength(6)])
-  })
+  loginForm: FormGroup;
+
+  constructor(private api: AuthService) {
+    this.loginForm = new FormGroup({
+      email: new FormControl("", [Validators.email]),
+      password: new FormControl("")
+    })
+  }
 
   signIn() {
-    if (this.loginForm.invalid) {
-      return;
+    if (this.loginForm.valid) {
+      const {email, password} = this.loginForm.value
+      this.api.loginUser(email, password).subscribe(
+        response => {
+          console.log('Response:', response);
+        }
+      );
     }
   }
 }
