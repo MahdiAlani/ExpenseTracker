@@ -5,13 +5,7 @@
             
           <div class="form-floating mb-1 p-1 w-100">
             <input type="text" class="form-control" formControlName="email" id="email" placeholder="Email*" required>
-            <label for="email">Email*</label>
-            <div class="text-danger text-start">
-              <small *ngIf= "loginForm.controls['email'].invalid && (loginForm.controls['email'].touched || loginForm.controls['email'].dirty)">
-                *Invalid Email Address.
-              </small>
-            </div>
-            
+            <label for="email">Email*</label>            
           </div>
 
           <div class="form-floating mb-1 p-1 w-100">

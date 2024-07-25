@@ -16,7 +16,7 @@ namespace ExpenseTrackerAPI.Controllers
     [Authorize]
     public class UsersController : ControllerBase
     {
-        
+
         public AuthService authService { get; set; }
 
         public UsersController(AuthService authService)
@@ -30,9 +30,29 @@ namespace ExpenseTrackerAPI.Controllers
         {
             try
             {
-                LoginResponseDto response = authService.GetUser(loginRequest);
+                User user = authService.GetUser(loginRequest);
+                string refreshToken = authService.CreateRefreshToken(user);
+                string accessToken = authService.CreateAccessToken(refreshToken, user);
 
-                return Ok(response);
+                HttpContext.Response.Cookies.Append("RefreshToken", refreshToken,
+                    new CookieOptions
+                    {
+                        Expires = DateTime.UtcNow.AddDays(14),
+                        HttpOnly = true,
+                        Secure = true,
+                        SameSite = SameSiteMode.None
+                    });
+
+                HttpContext.Response.Cookies.Append("AccessToken", accessToken,
+                    new CookieOptions
+                    {
+                        Expires = DateTime.UtcNow.AddMinutes(60),
+                        HttpOnly = true,
+                        Secure = true,
+                        SameSite = SameSiteMode.None
+                    });
+
+                return Ok(AuthService.ConvertToDto(user));
             }
             catch (Exception ex)
             {
@@ -46,15 +66,72 @@ namespace ExpenseTrackerAPI.Controllers
         {
             try
             {
-                LoginResponseDto response = authService.SaveUser(registerRequest);
+                User user = authService.SaveUser(registerRequest);
+                string refreshToken = authService.CreateRefreshToken(user);
+                string accessToken = authService.CreateAccessToken(refreshToken ,user);
 
-                return Ok(response);
+                HttpContext.Response.Cookies.Append("RefreshToken", refreshToken,
+                    new CookieOptions
+                    {
+                        Expires = DateTime.UtcNow.AddDays(14),
+                        HttpOnly = true,
+                        Secure = true,
+                        SameSite = SameSiteMode.None
+                    });
+
+                HttpContext.Response.Cookies.Append("AccessToken", accessToken,
+                    new CookieOptions
+                    {
+                        Expires = DateTime.UtcNow.AddMinutes(60),
+                        HttpOnly = true,
+                        Secure = true,
+                        SameSite = SameSiteMode.None
+                    });
+
+                return Ok(AuthService.ConvertToDto(user));
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPost("refresh")]
+        public IActionResult RefreshToken()
+        {
+            try
+            {
+                var refreshToken = Request.Cookies["RefreshToken"];
+                if (string.IsNullOrEmpty(refreshToken))
+                {
+                    return Unauthorized("No refresh token provided.");
+                }
+
+                var user = authService.GetUserByRefreshToken(refreshToken);
+                if (user == null)
+                {
+                    return Unauthorized("Invalid refresh token.");
+                }
+
+                var newAccessToken = authService.CreateAccessToken(refreshToken, user);
+
+                HttpContext.Response.Cookies.Append("AccessToken", newAccessToken,
+                    new CookieOptions
+                    {
+                        Expires = DateTime.UtcNow.AddMinutes(60),
+                        HttpOnly = true,
+                        Secure = true,
+                        SameSite = SameSiteMode.None
+                    });
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
 
 
         [HttpPut("{id}")]
@@ -67,7 +144,7 @@ namespace ExpenseTrackerAPI.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteUser(Guid id)
         {
-            
+
 
             return Ok();
         }

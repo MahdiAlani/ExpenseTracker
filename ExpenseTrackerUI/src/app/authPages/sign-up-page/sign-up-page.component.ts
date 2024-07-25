@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../../Services/UserApi/Auth.service';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -16,7 +16,7 @@ export class SignUpPageComponent {
 
   registrationForm: FormGroup;
 
-  constructor(private api: AuthService, private passValidator: PasswordValidatorService) {
+  constructor(private api: AuthService, private passValidator: PasswordValidatorService, private router: Router) {
     this.registrationForm = new FormGroup({
       email: new FormControl("", [Validators.required, Validators.email]),
       password: new FormControl("", [Validators.required, Validators.minLength(8), PasswordValidatorService.passwordComplexity])
@@ -29,9 +29,13 @@ export class SignUpPageComponent {
       this.api.registerUser(email, password).subscribe(
         response => {
           console.log('Response:', response);
+          this.router.navigate(['']);
+        },
+        error => {
+          console.error('Error:', error);
+          // Handle error if needed
         }
       );
     }
-    
   }
 }

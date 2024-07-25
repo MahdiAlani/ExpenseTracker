@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../../Services/UserApi/Auth.service';
 import { CommonModule } from '@angular/common';
 
@@ -15,19 +15,24 @@ export class SignInPageComponent {
 
   loginForm: FormGroup;
 
-  constructor(private api: AuthService) {
+  constructor(private api: AuthService, private router: Router) {
     this.loginForm = new FormGroup({
-      email: new FormControl("", [Validators.email]),
+      email: new FormControl(""),
       password: new FormControl("")
     })
   }
 
   signIn() {
     if (this.loginForm.valid) {
-      const {email, password} = this.loginForm.value
+      const { email, password } = this.loginForm.value;
       this.api.loginUser(email, password).subscribe(
         response => {
           console.log('Response:', response);
+          this.router.navigate(['']);
+        },
+        error => {
+          console.error('Error:', error);
+          // Handle error if needed
         }
       );
     }

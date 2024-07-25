@@ -37,7 +37,7 @@ namespace ExpenseTrackerAPI.Services
             this.jwtHandler = jwtHandler;
         }
 
-        public LoginResponseDto GetUser(LoginRequest loginRequest)
+        public User GetUser(LoginRequest loginRequest)
         {
 
             User? user = appDbContext.Users.SingleOrDefault(u => u.Email == loginRequest.Email);
@@ -48,15 +48,11 @@ namespace ExpenseTrackerAPI.Services
                 throw new KeyNotFoundException("User was not found");
             }
 
-            // Allow the user to login
-            string refreshToken = CreateRefreshToken(user);
-            string accessToken = CreateAccessToken(refreshToken, user);
-
-            return new LoginResponseDto(ConvertToDto(user), accessToken, refreshToken);
+            return user;
 
         }
 
-        public LoginResponseDto SaveUser(RegisterRequest registerRequest)
+        public User SaveUser(RegisterRequest registerRequest)
         {
 
             // User already exists
@@ -75,13 +71,10 @@ namespace ExpenseTrackerAPI.Services
             appDbContext.Users.Add(user);
             appDbContext.SaveChanges();
 
-            string refreshToken = CreateRefreshToken(user);
-            string accessToken = CreateAccessToken(refreshToken, user);
-
-            return new LoginResponseDto(ConvertToDto(user), accessToken, refreshToken);
+            return user;
         }
 
-        private string CreateRefreshToken(User user)
+        public string CreateRefreshToken(User user)
         {
             // Adding all claims
             var claims = new List<Claim>
@@ -97,7 +90,7 @@ namespace ExpenseTrackerAPI.Services
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddHours(168),
+                Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(_secretKey),
                     SecurityAlgorithms.HmacSha256Signature)
             };
@@ -108,7 +101,7 @@ namespace ExpenseTrackerAPI.Services
             return tokenString;
         }
 
-        private string CreateAccessToken(string refreshToken, User user)
+        public string CreateAccessToken(string refreshToken, User user)
         {
             // Validates the refresh token
             // Throws an Error if token is not valid
@@ -130,7 +123,7 @@ namespace ExpenseTrackerAPI.Services
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddDays(14),
+                Expires = DateTime.UtcNow.AddMinutes(60),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(_secretKey),
                     SecurityAlgorithms.HmacSha256Signature)
             };
@@ -143,9 +136,9 @@ namespace ExpenseTrackerAPI.Services
 
         }
 
-        private void ValidateToken(string token)
+        private ClaimsPrincipal ValidateToken(string token)
         {
-            jwtHandler.ValidateToken(token, new TokenValidationParameters
+            return jwtHandler.ValidateToken(token, new TokenValidationParameters
             {
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = new SymmetricSecurityKey(_secretKey),
@@ -154,9 +147,18 @@ namespace ExpenseTrackerAPI.Services
             }, out SecurityToken validatedToken);
         }
 
-        private static UserDto ConvertToDto(User user)
+        public static UserDto ConvertToDto(User user)
         {
             return new UserDto(user.Email);
+        }
+
+        public User GetUserByRefreshToken(string refreshToken)
+        {
+            ClaimsPrincipal claimsPrincipal = this.ValidateToken(refreshToken);
+            var userId = Guid.Parse(claimsPrincipal.FindFirst("sub")?.Value);
+
+            return appDbContext.Users.FirstOrDefault(u => u.Id == (userId));
+
         }
     }
 }
