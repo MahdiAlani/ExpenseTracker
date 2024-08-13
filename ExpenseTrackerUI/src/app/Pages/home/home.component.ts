@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { ReceiptEntryDialog } from "../../Receipt Entry/receipt-entry-dialog/receipt-entry-dialog";
+import { AddReceiptComponent } from "../../Receipt Entry/add-receipt/add-receipt.component";
+import { NavBarComponent } from "../../nav-bar/nav-bar.component";
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterModule, ReceiptEntryDialog, AddReceiptComponent, NavBarComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })

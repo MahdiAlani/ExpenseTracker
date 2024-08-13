@@ -40,6 +40,7 @@ namespace ExpenseTrackerAPI.Controllers
                         Expires = DateTime.UtcNow.AddDays(14),
                         HttpOnly = true,
                         Secure = true,
+                        IsEssential = true,
                         SameSite = SameSiteMode.None
                     });
 
@@ -49,6 +50,7 @@ namespace ExpenseTrackerAPI.Controllers
                         Expires = DateTime.UtcNow.AddMinutes(60),
                         HttpOnly = true,
                         Secure = true,
+                        IsEssential = true,
                         SameSite = SameSiteMode.None
                     });
 
@@ -137,21 +139,24 @@ namespace ExpenseTrackerAPI.Controllers
         [HttpPut("{id}")]
         public IActionResult UpdateUser(Guid id, RegisterRequest registerRequest)
         {
-
             return Ok();
         }
 
         [HttpDelete("{id}")]
         public IActionResult DeleteUser(Guid id)
         {
-
-
             return Ok();
         }
 
-        [HttpGet("AuthTest")]
-        public IActionResult AuthTest()
+        [AllowAnonymous]
+        [HttpGet("auth")]
+        public IActionResult AuthCheck()
         {
+            var token = Request.Cookies["AccessToken"];
+            if (string.IsNullOrEmpty(token))
+            {
+                return Unauthorized();
+            }
             return Ok();
         }
 

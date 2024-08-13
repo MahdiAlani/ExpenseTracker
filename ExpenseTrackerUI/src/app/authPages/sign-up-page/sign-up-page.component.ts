@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { AuthService } from '../../../Services/UserApi/Auth.service';
+import { AuthService } from '../../../Services/AuthService/Auth.service';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { PasswordValidatorService } from '../../../Services/UserApi/PasswordValidator/password-validator.service';
+import { PasswordValidatorService } from '../../../Services/PasswordValidator/password-validator.service';
+import { User } from '../../../Services/user';
 
 @Component({
   selector: 'app-sign-up-page',
@@ -25,17 +26,19 @@ export class SignUpPageComponent {
 
   register() {
     if (this.registrationForm.valid) {
-      const {email, password} = this.registrationForm.value
-      this.api.registerUser(email, password).subscribe(
-        response => {
-          console.log('Response:', response);
+      const { email, password } = this.registrationForm.value;
+      this.api.registerUser(email, password).subscribe({
+        next: (user: User) => {
+          console.log('Registered in user:', user);
           this.router.navigate(['']);
         },
-        error => {
-          console.error('Error:', error);
-          // Handle error if needed
+        error: (error: any) => {
+          console.error('Registration error:', error);
+        },
+        complete: () => {
+          console.log('Registration request complete');
         }
-      );
+      });
     }
   }
 }
