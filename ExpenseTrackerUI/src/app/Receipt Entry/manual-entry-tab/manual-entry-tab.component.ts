@@ -12,10 +12,10 @@ import { CommonModule } from '@angular/common';
 })
 export class ManualEntryTabComponent {
 
-  expenseForm: FormGroup;
+  form: FormGroup;
 
   constructor(private fb: FormBuilder) {
-    this.expenseForm = this.fb.group({
+    this.form = this.fb.group({
       merchant: ['', Validators.required],
       date: ['', Validators.required],
       category: ['', Validators.required],
@@ -27,9 +27,8 @@ export class ManualEntryTabComponent {
   }
 
   onSubmit() {
-    debugger
-    if (this.expenseForm.valid) {
-      console.log('Form Submitted', this.expenseForm.value);
+    if (this.form.valid) {
+      console.log('Form Submitted', this.form.value);
     } 
     else {
       console.log('Form is invalid');
