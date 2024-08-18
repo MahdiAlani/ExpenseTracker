@@ -5,14 +5,20 @@
             
           <div class="form-floating mb-1 p-1 w-100">
             <input type="text" class="form-control" formControlName="email" id="email" placeholder="Email*" required>
-            <label for="email">Email*</label>            
+            <label for="email">Email</label>
+            <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" class="text-danger text-start error-messages">
+              <small *ngIf="loginForm.get('email')?.errors?.['required']">*Email is required.<br></small>
+            </div>            
           </div>
 
           <div class="form-floating mb-1 p-1 w-100">
             <input type="password" class="form-control" formControlName="password" id="Password" placeholder="Password*" required>
-            <label for="Password">Password*</label>
+            <label for="Password">Password</label>
             <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="text-danger text-start error-messages">
               <small *ngIf="loginForm.get('password')?.errors?.['required']">*Password is required.<br></small>
+            </div>
+            <div class="text-danger error-messages">
+              <small *ngIf="wrongCredentials">Username or Password is incorrect.<br></small>
             </div>
           </div>
 

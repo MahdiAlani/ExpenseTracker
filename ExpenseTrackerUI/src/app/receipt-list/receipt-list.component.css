@@ -1,0 +1,31 @@
+.card {
+  width: 80%; /* Set the width of the card to 50% of the parent/container width */
+  margin: 0 auto; /* Center the card horizontally */
+  max-width: 1000px; /* Optional: Set a maximum width for larger screens */
+  border: 1px solid #ddd; /* Optional: Add a border */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow */
+  flex-direction: column;
+  justify-self: flex-end;
+}
+
+.custom-button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.custom-button .flex-item {
+  flex: 1;
+  text-align: center;
+}
+
+.accordion-button .col {
+  text-align: center; /* Center the text in each column */
+}
+
+/* Optional: Make titles bold and centered */
+.card-header .row div {
+  text-align: center;
+  font-weight: bold;
+}
+

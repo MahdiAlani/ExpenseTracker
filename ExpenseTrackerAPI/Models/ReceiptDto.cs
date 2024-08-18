@@ -4,6 +4,7 @@ namespace ExpenseTrackerAPI.Models
 {
     public class ReceiptDto
     {
+        public Guid UserId { get; set; }
         public string? Merchant { get; set; }
 
         public DateTime Date { get; set; }

@@ -3,15 +3,11 @@ using System.Security.Claims;
 using System.Text;
 using AuthCore.Helpers;
 using ExpenseTrackerAPI.Data;
-using ExpenseTrackerAPI.Migrations;
 using ExpenseTrackerAPI.Models;
 using ExpenseTrackerAPI.Models.Domain;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.Data;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Any;
 
 namespace ExpenseTrackerAPI.Services
 {
@@ -39,17 +35,22 @@ namespace ExpenseTrackerAPI.Services
 
         public User GetUser(LoginRequest loginRequest)
         {
-
+            // Find the user by email
             User? user = appDbContext.Users.SingleOrDefault(u => u.Email == loginRequest.Email);
 
-            // User does not exist
+            // Check if user exists
             if (user == null)
             {
                 throw new KeyNotFoundException("User was not found");
             }
 
-            return user;
+            // Verify the password
+            if (passwordHasher.VerifyHashedPassword(user, user.Password, loginRequest.Password) == PasswordVerificationResult.Failed)
+            {
+                throw new UnauthorizedAccessException("Invalid credentials");
+            }
 
+            return user;
         }
 
         public User SaveUser(RegisterRequest registerRequest)
@@ -136,7 +137,7 @@ namespace ExpenseTrackerAPI.Services
 
         }
 
-        private ClaimsPrincipal ValidateToken(string token)
+        public ClaimsPrincipal ValidateToken(string token)
         {
             return jwtHandler.ValidateToken(token, new TokenValidationParameters
             {
@@ -149,7 +150,7 @@ namespace ExpenseTrackerAPI.Services
 
         public static UserDto ConvertToDto(User user)
         {
-            return new UserDto(user.Email);
+            return new UserDto(user.Email, user.Id);
         }
 
         public User GetUserByRefreshToken(string refreshToken)

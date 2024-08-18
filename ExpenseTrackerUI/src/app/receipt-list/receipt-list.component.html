@@ -1,0 +1,47 @@
+<div class="card">
+  <div class="card-header">
+    Latest Receipts
+  </div>
+  <div class="card-body">
+    <div class="accordion" id="accordionExample">
+      <!-- Titles Row -->
+      <div class="row mb-2 text-center">
+        <div class="col"><strong>Merchant </strong><i (click)="sortBy('merchant')" class="fas fa-sort"></i></div>
+        <div class="col"><strong>Total </strong><i (click)="sortBy('total')" class="fas fa-sort"></i></div>
+        <div class="col"><strong>Date </strong><i (click)="sortBy('date')" class="fas fa-sort"></i></div>
+      </div>
+
+      <!-- Accordion Items -->
+      <div *ngFor="let receipt of receipts$ | async; let i = index" class="accordion-item">
+        <h2 class="accordion-header" [id]="'heading' + i">
+          <button 
+            class="accordion-button collapsed" 
+            type="button" 
+            data-bs-toggle="collapse" 
+            [attr.data-bs-target]="'#collapse' + i" 
+            [attr.aria-controls]="'collapse' + i" 
+            aria-expanded="false">
+            <div class="row w-100">
+              <div class="col">{{ receipt.merchant }}</div>
+              <div class="col">{{ receipt.total | currency }}</div>
+              <div class="col">{{ receipt.date | date }}</div>
+            </div>
+          </button>
+        </h2>
+        <div 
+          [id]="'collapse' + i" 
+          class="accordion-collapse collapse" 
+          [attr.aria-labelledby]="'heading' + i">
+          <div class="accordion-body">
+            <p><strong>Merchant:</strong> {{ receipt.merchant }}</p>
+            <p><strong>Date:</strong> {{ receipt.date | date }}</p>
+            <p><strong>Subtotal:</strong> {{ receipt.subtotal | currency }}</p>
+            <p><strong>Tax:</strong> {{ receipt.tax | currency }}</p>
+            <p><strong>Total:</strong> {{ receipt.total | currency }}</p>
+            <p><strong>Payment Method:</strong> {{ receipt.paymentMethod }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

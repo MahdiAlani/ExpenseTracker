@@ -1,4 +1,5 @@
 export interface Receipt {
+    userId: number;
     merchant: string;
     date: Date;
     category: 'food' | 'travel' | 'utilities' | 'entertainment' | 'other';
@@ -7,3 +8,56 @@ export interface Receipt {
     tax: number;
     total: number;
 }
+
+export const exampleReceipts: Receipt[] = [
+    {
+        userId: 1,
+        merchant: 'Grocery Mart',
+        date: new Date('2024-08-14'),
+        category: 'food',
+        paymentMethod: 'creditCard',
+        subtotal: 45.99,
+        tax: 3.68,
+        total: 49.67
+    },
+    {
+        userId: 2,
+        merchant: 'Travel Express',
+        date: new Date('2024-08-10'),
+        category: 'travel',
+        paymentMethod: 'debitCard',
+        subtotal: 120.00,
+        tax: 9.60,
+        total: 129.60
+    },
+    {
+        userId: 3,
+        merchant: 'Electricity Co.',
+        date: new Date('2024-08-01'),
+        category: 'utilities',
+        paymentMethod: 'cash',
+        subtotal: 75.00,
+        tax: 0.00,
+        total: 75.00
+    },
+    {
+        userId: 4,
+        merchant: 'Movie Theater',
+        date: new Date('2024-08-12'),
+        category: 'entertainment',
+        paymentMethod: 'creditCard',
+        subtotal: 22.00,
+        tax: 1.76,
+        total: 23.76
+    },
+    {
+        userId: 5,
+        merchant: 'Bookstore',
+        date: new Date('2024-08-07'),
+        category: 'other',
+        paymentMethod: 'debitCard',
+        subtotal: 18.50,
+        tax: 1.48,
+        total: 19.98
+    }
+];

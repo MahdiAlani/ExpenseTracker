@@ -15,12 +15,18 @@ import { User } from '../../../Services/user';
 export class SignInPageComponent {
 
   loginForm: FormGroup;
+  wrongCredentials: Boolean = false;
 
   constructor(private api: AuthService, private router: Router) {
     this.loginForm = new FormGroup({
-      email: new FormControl(""),
-      password: new FormControl("")
+      email: new FormControl("", Validators.required),
+      password: new FormControl("", Validators.required)
     })
+
+    // When the user starts typing, wrong credentials message is removed
+    this.loginForm.valueChanges.subscribe(() => {
+      this.wrongCredentials = false;
+    });
   }
 
   signIn() {
@@ -29,10 +35,16 @@ export class SignInPageComponent {
       this.api.loginUser(email, password).subscribe({
         next: (user: User) => {
           console.log('Logged in user:', user);
+
+          // Save user into local storage
+          localStorage.setItem("Email", user.email)
+          localStorage.setItem("Id", user.id.toString())
+
           this.router.navigate(['']);
         },
         error: (error: any) => {
-          console.error('Login error:', error);
+          console.error('Login error');
+          this.wrongCredentials = true;
         },
         complete: () => {
           console.log('Login request complete');

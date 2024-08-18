@@ -1,7 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms'; 
 import { CommonModule } from '@angular/common';
+import { ReceiptService } from '../../../Services/ReceiptService/receipt.service';
+import { Receipt } from '../../../Services/ReceiptService/Receipt';
+import { Router } from '@angular/router';
 
 @Component({
   standalone: true,
@@ -14,7 +17,7 @@ export class ManualEntryTabComponent {
 
   form: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private receiptService: ReceiptService, private router: Router) {
     this.form = this.fb.group({
       merchant: ['', Validators.required],
       date: ['', Validators.required],
@@ -29,9 +32,24 @@ export class ManualEntryTabComponent {
   onSubmit() {
     if (this.form.valid) {
       console.log('Form Submitted', this.form.value);
-    } 
-    else {
+      var receipt = this.form.value;
+
+      // Set the User Id for the Receipt
+      receipt.userId = localStorage.getItem("Id");
+      
+      this.receiptService.createReceipt(receipt).subscribe({
+        next: (response) => {
+          console.log('Receipt created successfully:', response);
+        },
+        error: (error) => {
+          console.error('Error creating receipt:', error);
+        }
+      });
+    }
+     else {
       console.log('Form is invalid');
     }
+    // Refresh window so that components update
+    window.location.reload();
   }
 }

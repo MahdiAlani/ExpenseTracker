@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { UploadTabComponent } from '../upload-tab/upload-tab.component';
 import { ManualEntryTabComponent } from '../manual-entry-tab/manual-entry-tab.component';
 import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
 
 @Component({
   standalone: true,
@@ -11,7 +12,8 @@ import { CommonModule } from '@angular/common';
   imports: [
     CommonModule,
     UploadTabComponent,
-    ManualEntryTabComponent  ]
+    ManualEntryTabComponent
+  ]
 })
 export class ReceiptEntryDialog {
   activeTab: string = 'upload';

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using Microsoft.AspNetCore.SignalR;
+using System.ComponentModel;
 
 namespace ExpenseTrackerAPI.Models.Domain
 {
@@ -7,9 +8,10 @@ namespace ExpenseTrackerAPI.Models.Domain
 
         public Receipt() { }
 
-        public Receipt(Guid id, string? merchant, DateTime date, string? category, string? paymentMethod, double subtotal, double taxPercentage, double total)
+        public Receipt(Guid id, Guid userId, string? merchant, DateTime date, string? category, string? paymentMethod, double subtotal, double taxPercentage, double total)
         {
             Id = id;
+            UserId = userId;
             Merchant = merchant;
             Date = date;
             Category = category;
@@ -20,6 +22,8 @@ namespace ExpenseTrackerAPI.Models.Domain
         }
 
         public Guid Id { get; set; }
+
+        public Guid UserId { get; set; }
 
         public string? Merchant { get; set; }
 

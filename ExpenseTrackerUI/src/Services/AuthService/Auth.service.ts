@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
 import { url, User, UserAuth } from '../user';
 
 @Injectable({
@@ -10,29 +11,44 @@ export class AuthService {
 
   private apiUrl = `${url}/api/Users`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private client: HttpClient) {}
 
   loginUser(email: string, password: string) {
     const user: UserAuth = { email, password };
-    return this.http.post<User>(`${this.apiUrl}/login`, user, {withCredentials: true})
+    return this.client.post<User>(`${this.apiUrl}/login`, user, {withCredentials: true})
   }
 
   registerUser(email: string, password: string) {
     const user: UserAuth = { email, password };
-    return this.http.post<User>(`${this.apiUrl}/register`, user, {withCredentials: true});
+    return this.client.post<User>(`${this.apiUrl}/register`, user, {withCredentials: true});
+  }
+
+  logOutUser() {
+    localStorage.clear();
+    return this.client.post(`${this.apiUrl}/logout`, {}, {withCredentials: true});
   }
 
   private refreshToken() {
-    return this.http.post(`${this.apiUrl}/refresh`, {}, {withCredentials: true});
+    return this.client.post(`${this.apiUrl}/refresh`, {}, {withCredentials: true});
   }
 
-  isAuthenticated(): boolean {
-    try {
-      this.http.get(`${this.apiUrl}/auth`, {withCredentials: true});
-      return true;
-
-    } catch (e: any) {
-      return false;
+  isAuthenticated(): Observable<boolean> {
+    const userEmail = localStorage.getItem('Email');
+    const userId = localStorage.getItem('Id');
+  
+    if (!userEmail || !userId) {
+      // If either is missing, return false
+      return of(false);
     }
+
+    return this.client.get(`${this.apiUrl}/auth`, { observe: 'response', withCredentials: true }).pipe(
+      map((response) => {
+        // Check if response was valid
+        return response.status === 200;
+      }),
+      catchError(error => {
+        return [false];
+      })
+    );
   }
 }

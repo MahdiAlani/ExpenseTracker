@@ -134,9 +134,40 @@ namespace ExpenseTrackerAPI.Controllers
             }
         }
 
+        [HttpPost("logout")]
+        public IActionResult Logout()
+        {
+            try
+            {
+                // Expire all cookies
+                HttpContext.Response.Cookies.Append("AccessToken", string.Empty,
+                    new CookieOptions
+                    {
+                        Expires = DateTime.UtcNow.AddDays(-1),
+                        HttpOnly = true,
+                        Secure = true,
+                        SameSite = SameSiteMode.None
+                    });
+                HttpContext.Response.Cookies.Append("RefreshToken", string.Empty,
+                    new CookieOptions
+                    {
+                        Expires = DateTime.UtcNow.AddDays(-1),
+                        HttpOnly = true,
+                        Secure = true,
+                        SameSite = SameSiteMode.None
+                    });
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
 
-        [HttpPut("{id}")]
+
+            [HttpPut("{id}")]
         public IActionResult UpdateUser(Guid id, RegisterRequest registerRequest)
         {
             return Ok();
@@ -148,15 +179,27 @@ namespace ExpenseTrackerAPI.Controllers
             return Ok();
         }
 
-        [AllowAnonymous]
         [HttpGet("auth")]
+        [AllowAnonymous]
         public IActionResult AuthCheck()
         {
-            var token = Request.Cookies["AccessToken"];
-            if (string.IsNullOrEmpty(token))
+            try
+            {
+                var token = Request.Cookies["AccessToken"];
+
+                // Token does not exist
+                if (string.IsNullOrEmpty(token))
+                {
+                    return Unauthorized();
+                }
+
+            } 
+            // Token is invalid
+            catch (Exception ex)
             {
                 return Unauthorized();
             }
+
             return Ok();
         }
 

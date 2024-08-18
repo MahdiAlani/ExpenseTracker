@@ -19,6 +19,9 @@ namespace ExpenseTrackerAPI.Controllers
             this.dbContext = dbContext;   
         }
 
+        /*
+         * Gets all database receipts
+         */
         [HttpGet]
         public IActionResult GetAllReceipts() 
         {
@@ -27,12 +30,28 @@ namespace ExpenseTrackerAPI.Controllers
         }
 
         /*
-        * Gets receipts within a specific id
+        * Gets receipts from a specific user. Data can be sorted by the user based on parameters
         */
-        [HttpGet("byId")]
-        public IActionResult GetReceiptsByDate(Guid id)
+        [HttpGet("{id}")]
+        public IActionResult GetReceipts(Guid id, string sortBy = "date", string sortDirection = "desc")
         {
-            var receipts = dbContext.Receipts.SingleOrDefault(r => r.Id == id);
+            var query = dbContext.Receipts.AsQueryable();
+
+            switch (sortBy.ToLower())
+            {
+                case "merchant":
+                    query = sortDirection.ToLower() == "desc" ? query.OrderByDescending(r => r.Merchant) : query.OrderBy(r => r.Merchant);
+                    break;
+                case "total":
+                    query = sortDirection.ToLower() == "desc" ? query.OrderByDescending(r => r.Total) : query.OrderBy(r => r.Total);
+                    break;
+                case "date":
+                default:
+                    query = sortDirection.ToLower() == "desc" ? query.OrderByDescending(r => r.Date) : query.OrderBy(r => r.Date);
+                    break;
+            }
+
+            var receipts = query.ToList();
             return Ok(receipts);
         }
 
@@ -40,9 +59,9 @@ namespace ExpenseTrackerAPI.Controllers
          * Gets receipts within a specific date
          */
         [HttpGet("bydate")]
-        public IActionResult GetReceiptsByDate(DateTime date)
+        public IActionResult GetReceiptsByDate(Guid id, DateTime date)
         {
-            var receipts = dbContext.Receipts.Where(r => r.Date.Date == date.Date).ToList();
+            var receipts = dbContext.Receipts.Where(r => (r.UserId == id && r.Date.Date == date.Date)).ToList();
             return Ok(receipts);
         }
 
@@ -50,9 +69,9 @@ namespace ExpenseTrackerAPI.Controllers
          * Gets receipts within a specific category
          */
         [HttpGet("bycategory")]
-        public IActionResult GetReceiptsByCategory(string category)
+        public IActionResult GetReceiptsByCategory(Guid id, string category)
         {
-            var receipts = dbContext.Receipts.Where(r => r.Category == category).ToList();
+            var receipts = dbContext.Receipts.Where(r => (r.UserId == id && r.Category == category)).ToList();
             return Ok(receipts);
         }
 
@@ -60,9 +79,9 @@ namespace ExpenseTrackerAPI.Controllers
          * Gets receipts from a specific payment method
          */
         [HttpGet("bypaymentmethod")]
-        public IActionResult GetReceiptsByPaymentMethod(string paymentMethod)
+        public IActionResult GetReceiptsByPaymentMethod(Guid id, string paymentMethod)
         {
-            var receipts = dbContext.Receipts.Where(r => r.PaymentMethod == paymentMethod).ToList();
+            var receipts = dbContext.Receipts.Where(r => (r.UserId == id && r.PaymentMethod == paymentMethod)).ToList();
             return Ok(receipts);
         }
 
@@ -72,6 +91,7 @@ namespace ExpenseTrackerAPI.Controllers
             // Creates a new Receipt Model
             var receipt = new Receipt(
                 Guid.NewGuid(),
+                receiptDto.UserId,
                 receiptDto.Merchant,
                 receiptDto.Date,
                 receiptDto.Category,
@@ -83,6 +103,7 @@ namespace ExpenseTrackerAPI.Controllers
             // Adds the Receipt to the Database
             dbContext.Add(receipt);
             dbContext.SaveChanges();
+            Console.WriteLine("Receipt Created");
 
             return Ok(receipt);
         }
