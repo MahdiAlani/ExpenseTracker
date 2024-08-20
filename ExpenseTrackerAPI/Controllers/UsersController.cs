@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using Azure.Core;
+using Microsoft.IdentityModel.Tokens;
 
 namespace ExpenseTrackerAPI.Controllers
 {
@@ -98,42 +99,6 @@ namespace ExpenseTrackerAPI.Controllers
             }
         }
 
-        [HttpPost("refresh")]
-        public IActionResult RefreshToken()
-        {
-            try
-            {
-                var refreshToken = Request.Cookies["RefreshToken"];
-                if (string.IsNullOrEmpty(refreshToken))
-                {
-                    return Unauthorized("No refresh token provided.");
-                }
-
-                var user = authService.GetUserByRefreshToken(refreshToken);
-                if (user == null)
-                {
-                    return Unauthorized("Invalid refresh token.");
-                }
-
-                var newAccessToken = authService.CreateAccessToken(refreshToken, user);
-
-                HttpContext.Response.Cookies.Append("AccessToken", newAccessToken,
-                    new CookieOptions
-                    {
-                        Expires = DateTime.UtcNow.AddMinutes(60),
-                        HttpOnly = true,
-                        Secure = true,
-                        SameSite = SameSiteMode.None
-                    });
-
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
         [HttpPost("logout")]
         public IActionResult Logout()
         {
@@ -183,17 +148,67 @@ namespace ExpenseTrackerAPI.Controllers
         public IActionResult AuthCheck()
         {
 
-                var token = Request.Cookies["AccessToken"];
+            // Find the access Token
+            var accessToken = Request.Cookies["AccessToken"];
 
-                // Token does not exist
-                if (string.IsNullOrEmpty(token))
+            // No access token
+            if (string.IsNullOrEmpty(accessToken))
+            {
+                return Unauthorized("No access token found");
+            }
+
+            // Validate the access token
+            try
+            {
+                authService.ValidateToken(accessToken);
+            }
+            // Expired access token
+            catch (SecurityTokenExpiredException ex)
+            {
+                // Find the refresh token
+                var refreshToken = Request.Cookies["RefreshToken"];
+
+                // No refresh token
+                if (string.IsNullOrEmpty(refreshToken))
                 {
-                    return Unauthorized();
+                    return Unauthorized("No refresh token found");
                 }
 
-            // Validate token
-            authService.ValidateToken(token);
+                try
+                {
+                    // Validate refresh token
+                    authService.ValidateToken(refreshToken);
 
+                    // Valid refresh token, create new access token
+                    User user = authService.GetUserByRefreshToken(refreshToken);
+
+                    var newAccessToken = authService.CreateAccessToken(refreshToken, user);
+
+                    HttpContext.Response.Cookies.Append("AccessToken", newAccessToken,
+                        new CookieOptions
+                        {
+                            Expires = DateTime.UtcNow.AddMinutes(60),
+                            HttpOnly = true,
+                            Secure = true,
+                            SameSite = SameSiteMode.None
+                        });
+
+                    return Ok();
+
+                }
+                // Invalid refresh token
+                catch 
+                {
+                    return Unauthorized("Refresh Token invalid");
+                }
+            }
+            // Invalid access token, return unauthorized
+            catch (Exception ex)
+            {
+                return Unauthorized(ex.Message);
+            }
+
+            // Valid access token, return ok
             return Ok();
         }
 
