@@ -3,12 +3,13 @@ import { RouterModule } from '@angular/router';
 import { ReceiptEntryDialog } from "../../Receipt Entry/receipt-entry-dialog/receipt-entry-dialog";
 import { AddReceiptComponent } from "../../Receipt Entry/add-receipt/add-receipt.component";
 import { NavBarComponent } from "../../nav-bar/nav-bar.component";
-import { ReceiptListComponent } from "../../receipt-list/receipt-list.component";
+import { ReceiptListComponent } from "../../DashBoard/receipt-list/receipt-list.component";
+import { SpendingsComponent } from "../../DashBoard/spendings/spendings.component";
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [RouterModule, ReceiptEntryDialog, AddReceiptComponent, NavBarComponent, ReceiptListComponent],
+  imports: [RouterModule, ReceiptEntryDialog, AddReceiptComponent, NavBarComponent, ReceiptListComponent, SpendingsComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })

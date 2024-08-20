@@ -94,7 +94,7 @@ namespace ExpenseTrackerAPI.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(ex.InnerException);
             }
         }
 
@@ -166,8 +166,7 @@ namespace ExpenseTrackerAPI.Controllers
         }
 
 
-
-            [HttpPut("{id}")]
+        [HttpPut("{id}")]
         public IActionResult UpdateUser(Guid id, RegisterRequest registerRequest)
         {
             return Ok();
@@ -183,8 +182,7 @@ namespace ExpenseTrackerAPI.Controllers
         [AllowAnonymous]
         public IActionResult AuthCheck()
         {
-            try
-            {
+
                 var token = Request.Cookies["AccessToken"];
 
                 // Token does not exist
@@ -193,12 +191,8 @@ namespace ExpenseTrackerAPI.Controllers
                     return Unauthorized();
                 }
 
-            } 
-            // Token is invalid
-            catch (Exception ex)
-            {
-                return Unauthorized();
-            }
+            // Validate token
+            authService.ValidateToken(token);
 
             return Ok();
         }

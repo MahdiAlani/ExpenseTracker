@@ -1,14 +1,16 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-upload-tab',
   standalone: true,
-  imports: [MatIcon],
+  imports: [CommonModule],
   templateUrl: './upload-tab.component.html',
   styleUrl: './upload-tab.component.css'
 })
 export class UploadTabComponent {
+
+  protected files: File[] = [];
 
   onDragOver(event: DragEvent) {
     event.preventDefault();
@@ -20,9 +22,19 @@ export class UploadTabComponent {
 
   onFileSelected(event: any) {
     const file = event.target.files[0];
+
     if (file) {
-      console.log(file);
-      // Handle the file (e.g., upload, display, etc.)
+      // Check if the file is already in the array based on name and size
+      const isDuplicate = this.files.some(existingFile => 
+        existingFile.name === file.name && existingFile.size === file.size
+      );
+
+      // Only add the file if it's not a duplicate
+      if (!isDuplicate) {
+        this.files.push(file);
+      }
+
+      console.log(this.files);
     }
   }
 }

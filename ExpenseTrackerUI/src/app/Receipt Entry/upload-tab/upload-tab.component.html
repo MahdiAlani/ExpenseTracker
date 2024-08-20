@@ -8,8 +8,10 @@
     <button type="button" class="btn btn-primary" (click)="fileInput.click()">Select File</button>
     <input type="file" #fileInput (change)="onFileSelected($event)" hidden>
   </div>
+  <div *ngFor="let file of this.files" class="scrollable-list">
+    {{ file.name }}
+  </div>
   <div class="col-12 mt-3 text-end">
     <button type="submit" class="btn btn-primary">Submit</button>
   </div> 
 </div>
-
