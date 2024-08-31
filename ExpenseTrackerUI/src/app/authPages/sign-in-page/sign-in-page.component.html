@@ -26,7 +26,18 @@
             </div>
           </div>
 
-            <button type="submit" class="btn btn-primary w-100"> Login</button>
+           <!-- Button with loading state -->
+          <div *ngIf="!loading; else loadingTemplate">
+            <button type="submit" class="btn btn-primary w-100">Login</button>
+          </div>
+
+          <!-- Loading spinner inside the button -->
+          <ng-template #loadingTemplate>
+            <button type="" class="btn btn-primary w-100 disabled">
+              <div class="spinner-border text-light"  role="status">
+              </div>
+            </button>
+          </ng-template>
 
           <!-- Sign up link-->
           <div id="signUp">

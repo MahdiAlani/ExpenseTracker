@@ -17,6 +17,7 @@ export class SignUpPageComponent {
 
   registrationForm: FormGroup;
   errorSigningIn: Boolean = false;
+  loading: Boolean = false; // Displays loading bar for user
 
   constructor(private api: AuthService, private passValidator: PasswordValidatorService, private router: Router) {
     this.registrationForm = new FormGroup({
@@ -31,6 +32,9 @@ export class SignUpPageComponent {
   }
 
   register() {
+    // Start loading
+    this.loading = true;
+
     if (this.registrationForm.valid) {
       const { email, password } = this.registrationForm.value;
       this.api.registerUser(email, password).subscribe({
@@ -45,12 +49,17 @@ export class SignUpPageComponent {
         },
         error: (error: any) => {
           console.error('Registration error:', error);
+          // Stop loading
+          this.loading = false;
           this.errorSigningIn = true;
         },
         complete: () => {
           console.log('Registration request complete');
         }
       });
+    } else {
+      // Stop loading
+      this.loading = false;
     }
   }
 }

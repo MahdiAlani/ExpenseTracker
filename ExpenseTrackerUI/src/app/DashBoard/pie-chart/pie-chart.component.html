@@ -2,8 +2,13 @@
     <div class="card-header text-center">
       <h5>Spending By Category</h5>
     </div>
-    <div class="card-body">
+    <div class="card-body" *ngIf="chartData; else noData">
       <p-chart type="pie" [data]="chartData" [options]="chartOptions" class="spending-chart"></p-chart>
     </div>
+    <ng-template #noData>
+      <div class="card-body">
+        <h5>Add Your first Receipt!</h5>
+      </div>
+    </ng-template>
   </div>
   

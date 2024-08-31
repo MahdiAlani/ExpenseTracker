@@ -33,7 +33,18 @@
               <small *ngIf="errorSigningIn">Registration error. Please try again later.<br></small>
             </div>
 
+          <!-- Button with loading state -->
+          <div *ngIf="!loading; else loadingTemplate">
             <button type="submit" class="btn btn-primary w-100">Register</button>
+          </div>
+
+          <!-- Loading spinner inside the button -->
+          <ng-template #loadingTemplate>
+            <button type="" class="btn btn-primary w-100 disabled">
+              <div class="spinner-border text-light"  role="status">
+              </div>
+            </button>
+          </ng-template>
 
           <!-- Sign in link-->
           <div id="signIn">

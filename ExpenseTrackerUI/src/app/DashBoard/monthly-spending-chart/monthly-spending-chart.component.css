@@ -5,10 +5,7 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
     border-radius: 8px; /* Rounded corners */
     border: none; /* Remove any default border */
-    height: 320px; /* Adjust height for a more compact card similar to example */
     display: flex; /* Use flexbox for layout */
-    flex-direction: column; /* Stack header and body vertically */
-    padding: 0; /* Remove padding to maximize chart space */
   }
   
   .card-header {

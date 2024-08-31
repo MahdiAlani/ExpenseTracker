@@ -14,8 +14,9 @@ import { User } from '../../../Services/user';
 })
 export class SignInPageComponent {
 
-  loginForm: FormGroup;
-  wrongCredentials: Boolean = false;
+  loginForm: FormGroup; // The form used for user input
+  wrongCredentials: Boolean = false; // Used to display error messages
+  loading: Boolean = false; // Displays loading bar for user
 
   constructor(private api: AuthService, private router: Router) {
     this.loginForm = new FormGroup({
@@ -30,6 +31,9 @@ export class SignInPageComponent {
   }
 
   signIn() {
+    // Start loading
+    this.loading = true;
+
     if (this.loginForm.valid) {
       const { email, password } = this.loginForm.value;
       this.api.loginUser(email, password).subscribe({
@@ -40,16 +44,22 @@ export class SignInPageComponent {
           localStorage.setItem("Email", user.email)
           localStorage.setItem("Id", user.id.toString())
 
+          // Navigate to the home page
           this.router.navigate(['']);
         },
         error: (error: any) => {
           console.error('Login error');
+          // Stop loading
+          this.loading = false;
           this.wrongCredentials = true;
         },
         complete: () => {
           console.log('Login request complete');
         }
       });
+    } else {
+      // Stop loading
+      this.loading = false;
     }
   }
 }

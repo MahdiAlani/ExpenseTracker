@@ -7,7 +7,7 @@ import { PeriodicData } from '../../../Services/ReceiptService/Receipt';
 @Component({
   selector: 'app-pie-chart',
   standalone: true,
-  imports: [ChartModule, CommonModule],
+  imports: [ChartModule, CommonModule ],
   templateUrl: './pie-chart.component.html',
   styleUrls: ['./pie-chart.component.css']
 })

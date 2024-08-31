@@ -25,32 +25,31 @@ export class MonthlySpendingChartComponent implements OnInit {
     const currentDate = new Date();
     const startDate = new Date(currentDate.getFullYear(), 0, 1); // January 1st of the current year
     const endDate = new Date(currentDate.getFullYear(), 11, 31); // December 31st of the current year
-  
+
     // Fetch data from the service for the current year with 'monthly' frequency
     this.receiptService.getSpendingsData(startDate, endDate, 'monthly', '').subscribe(data => {
       // Initialize an array with zeros for all months
       const monthlyData = new Array(12).fill(0);
-  
+
       // Fill the monthlyData array with the data returned from the service
       data.forEach(d => {
         const monthIndex = parseInt(d.month) - 1; // Convert 1-based month to 0-based index
         monthlyData[monthIndex] = d.totalSpent;
       });
-  
+
       // Setup the chart data with all months labels and the fetched data
-      this.chartData = exampleData
-      // this.chartData = {
-      //   labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'], // Labels for each month
-      //   datasets: [
-      //     {
-      //       label: 'Monthly Spending',
-      //       data: monthlyData, // Data array with total spending for each month
-      //       backgroundColor: '#36A2EB', // Color of the bars
-      //       borderColor: '#000000', // Border color of the bars
-      //       borderWidth: 1, // Border width of the bars
-      //     },
-      //   ],
-      // };
+      this.chartData = {
+        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'], // Labels for each month
+        datasets: [
+          {
+            label: 'Monthly Spending',
+            data: monthlyData, // Data array with total spending for each month
+            backgroundColor: '#36A2EB', // Color of the bars
+            borderColor: '#000000', // Border color of the bars
+            borderWidth: 1, // Border width of the bars
+          },
+        ],
+      };
     });
     // Define chart options
     this.chartOptions = {
@@ -99,12 +98,10 @@ export class MonthlySpendingChartComponent implements OnInit {
           enabled: true, // Enable tooltips
         }
       },
-      layout: {
-      }
     };
-    
 
-    
-    
+
+
+
   }
 }

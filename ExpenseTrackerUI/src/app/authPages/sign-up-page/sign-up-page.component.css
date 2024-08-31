@@ -25,3 +25,7 @@
 .logo-img {
     width: 100px;
 }
+
+.spinner-border {
+    animation: spinner-border 1s linear infinite;
+}

@@ -1,0 +1,21 @@
+<div *ngFor="let category of categories">
+  <div class="card mb-3">
+    <div class="card-header">
+      <h5>{{ category.name }} Budget</h5>
+    </div>
+    <div class="card-body">
+      <div class="mb-3">
+        <label for="budgetInput-{{ category.name }}" class="form-label">Set Budget ($):</label>
+        <input type="number" id="budgetInput-{{ category.name }}" [(ngModel)]="category.budget" class="form-control" (change)="updateProgress(category)" />
+      </div>
+      <!-- <ngb-progressbar 
+        [value]="category.spent / category.budget * 100" 
+        [max]="100" 
+        [type]="getProgressBarType(category)" 
+        [animated]="true" 
+        [striped]="true">
+        {{ category.spent | currency }} spent of {{ category.budget | currency }} ({{ category.spent / category.budget * 100 | number: '1.0-0' }}%)
+      </ngb-progressbar> -->
+    </div>
+  </div>
+</div>
