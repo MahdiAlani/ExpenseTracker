@@ -1,0 +1,39 @@
+.bar-chart-card {
+    width: 100%; /* Full width of the container */
+    max-width: 600px; /* Increased max width of the card to match the example */
+    margin: 20px auto; /* Center the card horizontally */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    border-radius: 8px; /* Rounded corners */
+    border: none; /* Remove any default border */
+    height: 320px; /* Adjust height for a more compact card similar to example */
+    display: flex; /* Use flexbox for layout */
+    flex-direction: column; /* Stack header and body vertically */
+    padding: 0; /* Remove padding to maximize chart space */
+  }
+  
+  .card-header {
+    background-color: #f8f9fa; /* Light grey background for the header */
+    border-bottom: 1px solid #e0e0e0; /* Light border at the bottom of the header */
+    text-align: center; /* Center align the text */
+  }
+  
+  .card-header h5 {
+    margin: 0; /* Remove default margin */
+    font-size: 18px; /* Font size for the header */
+  }
+  
+  .card-body {
+    display: flex; /* Enable flexbox */
+    flex-grow: 1; /* Allow the body to grow and take the remaining space */
+    justify-content: center; /* Center the chart horizontally */
+    align-items: center; /* Center the chart vertically */
+    padding: 0; /* Remove padding to maximize chart space */
+    height: 100%; /* Ensure the body takes up the full height */
+  }
+  
+  .bar-chart {
+    width: 90% !important; /* Make the chart take most of the width */
+    height: 90% !important; /* Make the chart take most of the height */
+    padding: 0; /* Remove any padding */
+  }
+  

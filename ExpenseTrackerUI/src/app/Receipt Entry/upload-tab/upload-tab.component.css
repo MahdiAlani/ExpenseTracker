@@ -20,3 +20,31 @@
 .file-drop-area button {
   margin-top: 10px;
 }
+
+.card {
+  border-radius: 10px;
+}
+
+.card img {
+  max-height: 100px;
+  object-fit: cover;
+}
+
+.card-body {
+  padding: 10px;
+}
+
+button.close {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: #000; /* Set this to the color you prefer */
+  cursor: pointer;
+}
+
+button.close:focus {
+  outline: none; /* Remove the focus outline when the button is clicked */
+}

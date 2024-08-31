@@ -34,7 +34,14 @@ export class UploadTabComponent {
         this.files.push(file);
       }
 
+      event.target.value = '';
       console.log(this.files);
     }
+  }
+
+  removeFile(file: File) {
+    this.files = this.files.filter(item => item !== file);
+    console.log(file + " removed");
+    console.log(this.files)
   }
 }

@@ -1,0 +1,30 @@
+.spending-card {
+    width: 100%; /* Full width of the container */
+    max-width: 400px; /* Max width of the card */
+    margin: 20px auto; /* Center the card horizontally */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    border-radius: 8px; /* Rounded corners */
+    border: none; /* Remove any default border */
+  }
+  
+  .card-header {
+    background-color: #f8f9fa; /* Light grey background for the header */
+    border-bottom: 1px solid #e0e0e0; /* Light border at the bottom of the header */
+  }
+  
+  .card-header h5 {
+    margin: 0; /* Remove default margin */
+    font-size: 18px; /* Font size for the header */
+  }
+  
+  .card-body {
+    display: flex; /* Enable flexbox */
+    justify-content: center; /* Center the content horizontally */
+    align-items: center; /* Center the content vertically */
+  }
+  
+  .spending-chart {
+    width: 100% !important; /* Make the chart take the full width of the card */
+    max-width: 300px; /* Restrict the maximum width of the chart */
+  }
+  

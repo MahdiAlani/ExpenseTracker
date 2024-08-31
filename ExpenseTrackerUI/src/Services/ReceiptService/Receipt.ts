@@ -1,3 +1,5 @@
+import { Type } from "@angular/core";
+
 export interface Receipt {
     userId: number;
     merchant: string;
@@ -61,3 +63,31 @@ export const exampleReceipts: Receipt[] = [
         total: 19.98
     }
 ];
+
+export const exampleData = {
+    labels: [
+      'January', 'February', 'March', 'April', 'May', 'June', 
+      'July', 'August', 'September', 'October', 'November', 'December'
+    ],
+    datasets: [
+      {
+        label: 'Total Spendings ($)',
+        data: [450, 380, 560, 700, 490, 680, 520, 610, 450, 730, 640, 590], // Example spending for each month
+        backgroundColor: '#36A2EB', // Single color for all bars
+        borderColor: '#36A2EB', // Same color for the border
+        borderWidth: 1 // Border width for the bars
+      }
+    ]
+  };
+
+export interface PeriodicData {
+    month: string;
+    year: string
+    type: string
+    totalSpent: number
+}
+
+export interface TypeData {
+    type: string
+    totalSpent: number
+}

@@ -1,6 +1,10 @@
 <div class="container d-flex justify-content-center align-items-center vh-100" id="root">
     <div class="card p-4 d-flex flex-column align-items-center" id="signIn">
-        <h2 id="header">Login</h2>
+
+      <!--Logo-->
+      <img src="../../assets/logo.svg" alt="Logo" class="logo-img mb-2">  
+      <h2 id="header">Login</h2>
+
         <form [formGroup]="loginForm" (ngSubmit)="signIn()" class="needs-validation w-100" novalidate id="form">
             
           <div class="form-floating mb-1 p-1 w-100">

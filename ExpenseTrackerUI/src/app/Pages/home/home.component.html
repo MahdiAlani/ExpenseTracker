@@ -1,6 +1,18 @@
 <app-nav-bar></app-nav-bar>
 <add-receipt></add-receipt>
-<app-spendings></app-spendings>
-<p>Spending per category</p>
-<p>Spending by payment method</p>
-<app-receipt-list></app-receipt-list>
+
+<div id="data-container">
+  <div class="data-row">
+    <div class="column">
+      <app-spendings></app-spendings>
+      <app-monthly-spending-chart></app-monthly-spending-chart>
+    </div>
+    <div class="column">
+      <app-pie-chart></app-pie-chart>
+    </div>
+  </div>
+
+  <div class="data-row">
+    <app-receipt-list></app-receipt-list>
+  </div>
+</div>
